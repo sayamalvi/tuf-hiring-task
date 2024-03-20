@@ -1,6 +1,8 @@
 import { useState } from "react"
 import axios from "axios"
+import { useNavigate } from "react-router-dom"
 const Code = () => {
+    const navigate = useNavigate()
     const [data, setData] = useState({
         username: '',
         code: '',
@@ -31,6 +33,7 @@ const Code = () => {
             body: JSON.stringify(finalData)
 
         })
+        navigate('/submission')
         console.log(res)
         const token = await res.json()
         console.log(token)
@@ -61,7 +64,7 @@ const Code = () => {
                 <div className='flex flex-col w-[50%]'>
                     <input name="username" onChange={handleChange} value={data.username} className="border border-solid border-gray-400 rounded-md m-3 p-1" placeholder="Username" />
                     <select name="language" value={data.language} onChange={handleChange} className="border border-solid border-gray-400 rounded-md m-3 p-1">
-                        <option value="C">C</option>
+                        <option value="C" selected>C</option>
                         <option value="C++">C++</option>
                         <option value="java">Java</option>
                         <option value="JavaScript">JavaScript</option>

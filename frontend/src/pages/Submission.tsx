@@ -12,7 +12,7 @@ const Submission = () => {
     }, [])
     return (
         <div>
-            <h1 className='text-4xl'>Submission</h1>
+            <h1 className='text-4xl m-5'>Submissions</h1>
             <div>
                 {data.map((sub: any) => {
                     return (
