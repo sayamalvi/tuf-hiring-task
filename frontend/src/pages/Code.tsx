@@ -37,6 +37,7 @@ const Code = () => {
 
             if (res.ok) {
                 console.log('Submission successful');
+                setLoading(false);
                 navigate('/submission');
             } else {
                 console.error('Submission failed');

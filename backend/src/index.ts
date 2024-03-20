@@ -67,6 +67,7 @@ app.post("/submit", async (req, res) => {
       "Insert into submissions (username, code, language, input, output, created_at) values (?, ?, ?, ?, ?, ?)",
       [username, code, language, input, output, timestamp]
     );
+    return res.json({ ok: true });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Error submitting code" });
