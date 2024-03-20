@@ -16,6 +16,7 @@ app.post("/submit", async (req, res) => {
   let token = "";
   let output: any = "";
   let timestamp: any = "";
+
   const submitOptions = {
     method: "POST",
     url: "https://judge0-ce.p.rapidapi.com/submissions",
@@ -40,6 +41,7 @@ app.post("/submit", async (req, res) => {
     token = response.data.token;
   } catch (error) {
     console.error(error);
+    return res.status(500).json({ error: "Error submitting code" });
   }
   const getOptions = {
     method: "GET",
@@ -56,16 +58,19 @@ app.post("/submit", async (req, res) => {
 
   try {
     const response = await axios.request(getOptions);
+    if (response.data.status.description === "Compilation Error")
+      throw new Error("Compilation Error");
     output = response.data.stdout;
     timestamp = response.data.created_at;
     console.log(response.data);
+    const q = await db.query(
+      "Insert into submissions (username, code, language, input, output, created_at) values (?, ?, ?, ?, ?, ?)",
+      [username, code, language, input, output, timestamp]
+    );
   } catch (error) {
     console.error(error);
+    return res.status(500).json({ error: "Error submitting code" });
   }
-  const q = await db.query(
-    "Insert into submissions (username, code, language, input, output, created_at) values (?, ?, ?, ?, ?, ?)",
-    [username, code, language, input, output, timestamp]
-  );
 });
 app.get("/submissions", async (req, res) => {
   const cachedData = await client.get("submissions");

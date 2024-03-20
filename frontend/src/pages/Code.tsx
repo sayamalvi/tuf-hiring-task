@@ -16,26 +16,38 @@ const Code = () => {
         })
     }
     const handleSubmit = async (e: any) => {
-        e.preventDefault()
-        setLoading(true)
+        e.preventDefault();
+        setLoading(true);
+
         const finalData = {
             username: btoa(data.username),
             code: btoa(data.code),
             language: btoa(data.language),
             input: btoa(data.input)
+        };
+
+        try {
+            const res = await fetch('http://localhost:9000/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(finalData)
+            });
+
+            if (res.ok) {
+                console.log('Submission successful');
+                navigate('/submission');
+            } else {
+                console.error('Submission failed');
+            }
+        } catch (error) {
+            console.error('Error submitting data:', error);
+        } finally {
+            setLoading(false);
         }
-        const res = await fetch('http://localhost:9000/submit', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(finalData)
+    };
 
-        })
-        if (res) navigate('/submission')
-        setLoading(false)
-
-    }
     return (
         <div className='m-3'>
             <h1 className='text-4xl m-5'>Code</h1>
@@ -43,7 +55,7 @@ const Code = () => {
                 <div className='flex flex-col '>
                     <input name="username" onChange={handleChange} value={data.username} className="border border-solid border-gray-400 rounded-md m-3 p-2" placeholder="Username" />
                     <select name="language" value={data.language} onChange={handleChange} className="border border-solid border-gray-400 rounded-md m-3 p-2">
-                        <option value="C" selected>C</option>
+                        <option value="C" >C</option>
                         <option value="C++">C++</option>
                         <option value="Java">Java</option>
                         <option value="JavaScript">JavaScript</option>
