@@ -3,7 +3,8 @@ import cors from "cors";
 import axios from "axios";
 import db from "./db";
 import { Redis } from "ioredis";
-
+import dotenv from "dotenv";
+dotenv.config();
 const app = express();
 const client = new Redis();
 
