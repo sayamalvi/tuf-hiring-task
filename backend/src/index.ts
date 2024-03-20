@@ -79,7 +79,7 @@ app.get("/submissions", async (req, res) => {
   console.log("Data retrieved from database");
 
   await client.set("submissions", JSON.stringify(q[0]));
-  await client.expire("submissions", 60);
+  await client.expire("submissions", 20);
 
   return res.json(q[0]);
 });

@@ -13,7 +13,7 @@ const Submission = () => {
 
     return (
         <div className="w-[100%] h-[100%] flex flex-col items-center justify-center px-5 ">
-            <h1 className='text-4xl m-5'>Submissions</h1>
+            <h1 className='text-4xl m-5 self-start'>Submissions</h1>
             <table className="border-collapse border border-gray-800 w-full h-full">
                 <thead>
                     <tr>
@@ -28,12 +28,12 @@ const Submission = () => {
                 <tbody>
                     {data.map((sub: any) => (
                         <tr key={sub.id} className="text-center">
-                            <td className="border border-gray-800 px-4 py-2">{sub.username}</td>
-                            <td className="border border-gray-800 px-4 py-2">{sub.language}</td>
-                            <td className="border border-gray-800 px-4 py-2">{sub.input}</td>
-                            <td className="border border-gray-800 px-4 py-2">{sub.code.substring(0, 100) + '...'}</td>
-                            <td className="border border-gray-800 px-4 py-2">{sub.output}</td>
-                            <td className="border border-gray-800 px-4 py-2">{sub.created_at}</td>
+                            <td className="border border-gray-800 px-4 py-2">{atob(sub.username)}</td>
+                            <td className="border border-gray-800 px-4 py-2">{atob(sub.language)}</td>
+                            <td className="border border-gray-800 px-4 py-2">{atob(sub.input)}</td>
+                            <td className="border border-gray-800 px-4 py-2">{atob(sub.code).substring(0, 30) + '...'}</td>
+                            <td className="border border-gray-800 px-4 py-2">{atob(sub.output).substring(0, 30) + '...'}</td>
+                            <td className="border border-gray-800 px-4 py-2">{new Date(sub.created_at).toLocaleDateString('en-US') + new Date(sub.created_at).toLocaleTimeString('en-US')}</td>
                         </tr>
                     ))}
                 </tbody>

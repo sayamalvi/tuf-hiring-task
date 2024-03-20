@@ -1,5 +1,4 @@
 import { useState } from "react"
-import axios from "axios"
 import { useNavigate } from "react-router-dom"
 const Code = () => {
     const navigate = useNavigate()
@@ -9,8 +8,7 @@ const Code = () => {
         language: 'C',
         input: '',
     })
-    const [output, setOutput] = useState('')
-
+    const [loading, setLoading] = useState(false)
     const handleChange = (e: any) => {
         setData({
             ...data,
@@ -19,6 +17,7 @@ const Code = () => {
     }
     const handleSubmit = async (e: any) => {
         e.preventDefault()
+        setLoading(true)
         const finalData = {
             username: btoa(data.username),
             code: btoa(data.code),
@@ -34,28 +33,35 @@ const Code = () => {
 
         })
         if (res) navigate('/submission')
+        setLoading(false)
 
     }
     return (
-        <div className='w-screen h-screen overflow-hidden m-3'>
+        <div className='m-3'>
             <h1 className='text-4xl m-5'>Code</h1>
-            <form className='flex items-center justify-evenly w-full '>
-                <div className='flex flex-col w-[50%]'>
-                    <input name="username" onChange={handleChange} value={data.username} className="border border-solid border-gray-400 rounded-md m-3 p-1" placeholder="Username" />
-                    <select name="language" value={data.language} onChange={handleChange} className="border border-solid border-gray-400 rounded-md m-3 p-1">
+            <form className='grid grid-cols-2 items-center'>
+                <div className='flex flex-col '>
+                    <input name="username" onChange={handleChange} value={data.username} className="border border-solid border-gray-400 rounded-md m-3 p-2" placeholder="Username" />
+                    <select name="language" value={data.language} onChange={handleChange} className="border border-solid border-gray-400 rounded-md m-3 p-2">
                         <option value="C" selected>C</option>
                         <option value="C++">C++</option>
-                        <option value="java">Java</option>
+                        <option value="Java">Java</option>
                         <option value="JavaScript">JavaScript</option>
                         <option value="Python">Python</option>
                     </select>
-                    <input name="input" onChange={handleChange} value={data.input} className="border border-solid border-gray-400 rounded-md m-3 p-1" placeholder="Input" />
-                    <button type="submit" onClick={handleSubmit} className="border border-solid ">Submit</button>
+                    <input name="input" onChange={handleChange}
+                        value={data.input}
+                        className="border border-solid border-gray-400 rounded-md m-3 p-2"
+                        placeholder="Input" />
+                    <button type="submit" onClick={handleSubmit}
+                        className="text-white bg-green-600 m-3 rounded-md p-2 disabled:opacity-60"
+                        disabled={loading}>
+                        {loading ? 'Submitting...' : 'Submit'}
+                    </button>
                 </div>
-                <div className='w-[40%]'>
-                    <textarea rows={10} cols={50} name="code" onChange={handleChange} value={data.code} className="border border-solid border-gray-400 w-full p-1" placeholder="Code" />
+                <div className=''>
+                    <textarea rows={9} cols={50} name="code" onChange={handleChange} value={data.code} className="border border-solid border-gray-400 w-full p-2 rounded-md" placeholder="Code" />
                 </div>
-                {output}
             </form>
         </div>
     )
