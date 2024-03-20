@@ -6,7 +6,7 @@ const Code = () => {
     const [data, setData] = useState({
         username: '',
         code: '',
-        language: '',
+        language: 'C',
         input: '',
     })
     const [output, setOutput] = useState('')
@@ -20,10 +20,10 @@ const Code = () => {
     const handleSubmit = async (e: any) => {
         e.preventDefault()
         const finalData = {
-            username: data.username,
-            code: data.code,
-            language: data.language,
-            input: data.input
+            username: btoa(data.username),
+            code: btoa(data.code),
+            language: btoa(data.language),
+            input: btoa(data.input)
         }
         const res = await fetch('http://localhost:9000/submit', {
             method: 'POST',
@@ -33,32 +33,11 @@ const Code = () => {
             body: JSON.stringify(finalData)
 
         })
-        navigate('/submission')
-        console.log(res)
-        const token = await res.json()
-        console.log(token)
-        const getOptions = {
-            method: 'GET',
-            url: `https://judge0-ce.p.rapidapi.com/submissions/${token}`,
-            params: {
-                base64_encoded: 'true',
-                fields: '*'
-            },
-            headers: {
-                'X-RapidAPI-Key': '92d01ba61bmsh792a46cf9da7ca2p13a648jsn0f9c65aee2bc',
-                'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com'
-            }
-        };
+        if (res) navigate('/submission')
 
-        try {
-            const response = await axios.request(getOptions);
-            console.log(response.data.stdout);
-        } catch (error) {
-            console.error(error);
-        }
     }
     return (
-        <div className='w-screen h-screen overflow-hidden'>
+        <div className='w-screen h-screen overflow-hidden m-3'>
             <h1 className='text-4xl m-5'>Code</h1>
             <form className='flex items-center justify-evenly w-full '>
                 <div className='flex flex-col w-[50%]'>
