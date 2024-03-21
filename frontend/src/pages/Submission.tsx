@@ -2,13 +2,22 @@ import { useEffect, useState } from "react";
 
 const Submission = () => {
     const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false)
+    const fetchData = async () => {
+        try {
+            const res = await fetch('http://localhost:9000/submissions');
+            const data = await res.json();
+            setData(data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } finally {
+            setLoading(false);
+        }
 
+    }
     useEffect(() => {
-        fetch('https://tuf-backend-xe6k.onrender.com/submissions', { mode: 'no-cors' })
-            .then((res) => res.json())
-            .then((data) => {
-                setData(data);
-            });
+        setLoading(true);
+        fetchData();
     }, []);
 
     return (
@@ -26,6 +35,7 @@ const Submission = () => {
                     </tr>
                 </thead>
                 <tbody>
+                    {loading && <tr><td colSpan={6} className="text-center">Loading...</td></tr>}
                     {data.map((sub: any) => (
                         <tr key={sub.id} className="text-center">
                             <td className="border border-gray-800 px-4 py-2">{atob(sub.username)}</td>
