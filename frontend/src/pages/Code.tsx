@@ -9,6 +9,7 @@ const Code = () => {
         input: '',
     })
     const [loading, setLoading] = useState(false)
+    const [err, setErr] = useState('')
     const handleChange = (e: any) => {
         setData({
             ...data,
@@ -41,7 +42,9 @@ const Code = () => {
                 navigate('/submission');
             } else {
                 console.error('Submission failed');
+                setErr('Submission failed. Check your inputs and try again')
             }
+
         } catch (error) {
             console.error('Error submitting data:', error);
         } finally {
@@ -76,6 +79,10 @@ const Code = () => {
                     <textarea rows={9} cols={50} name="code" onChange={handleChange} value={data.code} className="border border-solid border-gray-400 w-full p-2 rounded-md" placeholder="Code" />
                 </div>
             </form>
+            { }
+            {err && setTimeout(() => {
+                <p className="text-red-500 text-center font-bold">{err}</p>
+            }, 1000)}
         </div>
     )
 }
