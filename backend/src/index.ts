@@ -6,10 +6,14 @@ import { Redis } from "ioredis";
 import dotenv from "dotenv";
 dotenv.config();
 const app = express();
-const client = new Redis();
 
 app.use(cors());
 app.use(express.json());
+
+const client = new Redis({
+  host: process.env.REDIS_URL,
+  port: 6379,
+});
 
 app.post("/submit", async (req, res) => {
   const { username, code, language, input } = await req.body;

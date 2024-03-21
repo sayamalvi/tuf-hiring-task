@@ -21,6 +21,7 @@
     "mysql": "^2.18.1",
     "mysql2": "^3.9.2",
     "pg": "^8.11.3",
+    "redis": "^4.6.13",
     "ts-node": "^10.9.2"
   },
   "devDependencies": {

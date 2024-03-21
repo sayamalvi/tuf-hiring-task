@@ -27,7 +27,7 @@ const Code = () => {
         };
 
         try {
-            const res = await fetch('http://localhost:9000/submit', {
+            const res = await fetch('https://tuf-backend-xe6k.onrender.com/submit', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

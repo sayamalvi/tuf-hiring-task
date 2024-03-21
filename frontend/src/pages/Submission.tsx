@@ -4,7 +4,7 @@ const Submission = () => {
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:9000/submissions')
+        fetch('https://tuf-backend-xe6k.onrender.com/submissions', { mode: 'no-cors' })
             .then((res) => res.json())
             .then((data) => {
                 setData(data);
